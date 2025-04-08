@@ -37,6 +37,11 @@ android {
 }
 
 dependencies {
+    implementation(libs.google.api.client)
+    implementation(libs.google.oauth.client.jetty)
+    implementation(libs.google.api.services.calendar)
+
+
     implementation (libs.play.services.auth)
     implementation (libs.firebase.auth.ktx )
     implementation (libs.firebase.database)
