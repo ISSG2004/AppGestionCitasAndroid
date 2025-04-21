@@ -6,44 +6,33 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.appgestioncitas.R
-import com.example.appgestioncitas.databinding.FragmentLoginBinding
+import com.example.appgestioncitas.databinding.FragmentRegisterBinding
 
+class RegisterFragment : Fragment() {
 
-class LoginFragment : Fragment() {
-    private var _binding: FragmentLoginBinding? = null
+    private var _binding: FragmentRegisterBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentLoginBinding.inflate(inflater, container, false)
+        // Inflate the layout for this fragment
+        _binding = FragmentRegisterBinding.inflate(inflater, container, false)
         return binding.root
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Funcionalidad aquí
-        setListeners()
+        // Funcionalidad aquí debajo
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null  // Evita memory leaks
-    }
-    private fun setListeners() {
-        binding.registerLink.setOnClickListener {
-            // Navegar a la pantalla de registro
-            val fragmentRegistro = RegisterFragment()
-            parentFragmentManager.beginTransaction()
-                .replace(R.id.fragmentContainerView, fragmentRegistro)
-                .addToBackStack(null)
-                .commit()
-        }
     }
 }

@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace = "com.example.appgestioncitas"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.example.appgestioncitas"
@@ -34,14 +34,16 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    viewBinding{
+        enable=true
+    }
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
-    implementation(libs.google.api.client)
-    implementation(libs.google.oauth.client.jetty)
-    implementation(libs.google.api.services.calendar)
-
-
+    implementation (libs.androidx.fragment.ktx)
     implementation (libs.play.services.auth)
     implementation (libs.firebase.auth.ktx )
     implementation (libs.firebase.database)
