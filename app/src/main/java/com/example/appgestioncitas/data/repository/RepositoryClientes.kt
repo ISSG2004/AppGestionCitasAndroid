@@ -7,4 +7,7 @@ class RepositoryClientes {
     fun crearCliente(cliente: Usuario,uidCliente:String) {
         CrudClientes().crearUsuario(cliente,uidCliente)
     }
+    fun crearClienteLogGoogle(cliente: Usuario,uidCliente:String) {
+        CrudClientes().crearUsuario(cliente,uidCliente)
+    }
 }

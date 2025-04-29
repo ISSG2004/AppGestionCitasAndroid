@@ -14,5 +14,12 @@ class LoginFragmentViewModel: ViewModel()  {
     fun crearCliente(cliente: Usuario,uidCliente:String){
         repository.crearCliente(cliente,uidCliente)
     }
+    fun crearClienteLogGoogle(cliente: Usuario,uidCliente:String){
+        repository.crearClienteLogGoogle(cliente,uidCliente)
+    }
+
     //metodos para la lista de clientes para validar si existe
+
+
+
 }

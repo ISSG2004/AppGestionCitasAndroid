@@ -43,6 +43,9 @@ android {
 }
 
 dependencies {
+    implementation(libs.firebase.auth.ktx.v2212)
+    implementation(libs.play.services.auth)
+    implementation (libs.play.services.auth.v2070)
     implementation (libs.androidx.fragment.ktx)
     implementation (libs.play.services.auth)
     implementation (libs.firebase.auth.ktx )

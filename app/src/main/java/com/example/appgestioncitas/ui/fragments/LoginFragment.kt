@@ -11,7 +11,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import com.example.appgestioncitas.R
 import com.example.appgestioncitas.databinding.FragmentLoginBinding
-import com.example.appgestioncitas.ui.LoginRegisterActivity
+import com.example.appgestioncitas.models.Usuario
 import com.example.appgestioncitas.ui.MainActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -19,44 +19,73 @@ import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 
-
 class LoginFragment : Fragment() {
+
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
+    private val viewModel = LoginFragmentViewModel()
     private val auth = FirebaseAuth.getInstance()
-    private val responseLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        if (result.resultCode == RESULT_OK) {
-            val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
-            try {
-                val cuenta = task.getResult(ApiException::class.java)
-                val credenciales = GoogleAuthProvider.getCredential(cuenta.idToken, null)
-                FirebaseAuth.getInstance().signInWithCredential(credenciales)
-                    .addOnCompleteListener {
-                        if (it.isSuccessful) {
-                            irMain()
-                        } else {
-                            Toast.makeText(requireContext(), "Error al iniciar con Google", Toast.LENGTH_SHORT).show()
-                        }
-                    }
-            } catch (e: ApiException) {
-                Toast.makeText(requireContext(), "Fallo en GoogleSignIn: ${e.message}", Toast.LENGTH_SHORT).show()
-            }
-        } else {
-            Toast.makeText(requireContext(), "Inicio cancelado por el usuario", Toast.LENGTH_SHORT).show()
-        }
-    }
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
 
-    }
+    private val responseLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == RESULT_OK) {
+                val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
+                if (task.isSuccessful) {
+                    val cuenta = task.result
+                    if (cuenta != null) {
+                        val credenciales = GoogleAuthProvider.getCredential(cuenta.idToken, null)
+                        auth.signInWithCredential(credenciales)
+                            .addOnCompleteListener { taskAuth ->
+                                if (taskAuth.isSuccessful) {
+                                    irMain()
+                                } else {
+                                    Toast.makeText(
+                                        requireContext(),
+                                        "Error al iniciar sesión con Google",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                            }
+                    } else {
+                        Toast.makeText(
+                            requireContext(),
+                            "Cuenta de Google nula",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                } else {
+                    val exception = task.exception
+                    if (exception is ApiException) {
+                        Toast.makeText(
+                            requireContext(),
+                            "SignIn cancelado o fallido: ${exception.statusCode}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    } else {
+                        Toast.makeText(
+                            requireContext(),
+                            "Error inesperado: ${exception?.message}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+            } else {
+                Toast.makeText(
+                    requireContext(),
+                    "Inicio de sesión cancelado por el usuario",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
         return binding.root
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setListeners()
@@ -64,24 +93,33 @@ class LoginFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null  // Evita memory leaks
+        viewModel.crearClienteLogGoogle(Usuario(
+            auth.uid.toString(),
+            auth.currentUser?.displayName.toString(),
+            auth.currentUser?.email.toString(),
+            auth.currentUser?.phoneNumber.toString(),
+            ""),
+            auth.uid.toString())
+        _binding = null
     }
+
     private fun setListeners() {
         binding.registerLink.setOnClickListener {
-            // Navegar a la pantalla de registro
-            val fragmentRegistro = RegisterFragment()
             parentFragmentManager.beginTransaction()
-                .replace(R.id.fragmentContainerView, fragmentRegistro)
+                .replace(R.id.fragmentContainerView, RegisterFragment())
                 .addToBackStack(null)
                 .commit()
         }
+
         binding.googleSigninButton.setOnClickListener {
             loginConGoogle()
         }
+
         binding.loginButton.setOnClickListener {
             loginConEmail()
         }
     }
+
     private fun loginConGoogle() {
         val googleConf = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.google_client_id))
@@ -112,15 +150,16 @@ class LoginFragment : Fragment() {
                 irMain()
             }
             .addOnFailureListener {
-                Toast.makeText(requireContext(), "Error: ${it.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    requireContext(),
+                    "Error: ${it.message}",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
     }
-
-
 
     private fun irMain() {
         startActivity(Intent(requireContext(), MainActivity::class.java))
         requireActivity().finish()
     }
-
 }

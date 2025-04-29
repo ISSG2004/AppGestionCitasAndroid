@@ -1,71 +1,42 @@
 {
   "project_info": {
-    "project_number": "754438865373",
-    "firebase_url": "https://crudrealtimeclase-default-rtdb.europe-west1.firebasedatabase.app",
-    "project_id": "crudrealtimeclase",
-    "storage_bucket": "crudrealtimeclase.firebasestorage.app"
+    "project_number": "237782310317",
+    "firebase_url": "https://appo-8d144-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "appo-8d144",
+    "storage_bucket": "appo-8d144.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:754438865373:android:e5bc34d5ba933c3c693634",
+        "mobilesdk_app_id": "1:237782310317:android:624c08dfe871b380c85524",
         "android_client_info": {
           "package_name": "com.example.appgestioncitas"
         }
       },
       "oauth_client": [
         {
-          "client_id": "754438865373-3qvlj0istbtp8v12joir6cnet8q64goj.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyB4vk8kAVzVgn8zIICi399MCsAHO2M7iD4"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "754438865373-3qvlj0istbtp8v12joir6cnet8q64goj.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:754438865373:android:558037f99eea4271693634",
-        "android_client_info": {
-          "package_name": "com.example.crudrealtime090125"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "754438865373-2ju5ijlls8i9ai2l2b2q21jv1fm6eno8.apps.googleusercontent.com",
+          "client_id": "237782310317-jjkhu63p8502l095hnr18eaas46osjrh.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.crudrealtime090125",
+            "package_name": "com.example.appgestioncitas",
             "certificate_hash": "e1512148ca40bbe3e80af9bacac5fa82630f763d"
           }
         },
         {
-          "client_id": "754438865373-3qvlj0istbtp8v12joir6cnet8q64goj.apps.googleusercontent.com",
+          "client_id": "237782310317-r5boak4b86kcpgv2v29iqktuk1sm7bbb.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyB4vk8kAVzVgn8zIICi399MCsAHO2M7iD4"
+          "current_key": "AIzaSyAUKSbJbreQ92ztX_xvDbCg03ieNn2cTlw"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "754438865373-3qvlj0istbtp8v12joir6cnet8q64goj.apps.googleusercontent.com",
+              "client_id": "237782310317-r5boak4b86kcpgv2v29iqktuk1sm7bbb.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
