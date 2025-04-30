@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.example.appgestioncitas.R
 import com.example.appgestioncitas.databinding.FragmentRegisterBinding
@@ -18,7 +19,7 @@ class RegisterFragment : Fragment() {
 
     private var _binding: FragmentRegisterBinding? = null
     private val binding get() = _binding!!
-    private val viewModel = RegisterFragmentViewModel()
+    private val viewModel : RegisterFragmentViewModel by viewModels()
     private val auth = FirebaseAuth.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
