@@ -7,8 +7,11 @@ import com.example.appgestioncitas.models.Usuario
 
 class RegisterFragmentViewModel: ViewModel() {
     val repository = RepositoryClientes()
-    private val _listaCliente = MutableLiveData<Usuario>()
-    val listaClienteRegistro : MutableLiveData<Usuario> = _listaCliente
+    private val _listaCliente = MutableLiveData<List<Usuario>>()
+    val listaClienteRegistro : MutableLiveData<List<Usuario>> = _listaCliente
+    private val _usuarioValido = MutableLiveData<Boolean>()
+    val usuarioValido : MutableLiveData<Boolean> = _usuarioValido
+
 
     fun crearCliente(cliente: Usuario, uidCliente:String){
         repository.crearCliente(cliente,uidCliente)
@@ -16,6 +19,23 @@ class RegisterFragmentViewModel: ViewModel() {
     fun crearClienteLogGoogle(cliente: Usuario, uidCliente:String){
         repository.crearClienteLogGoogle(cliente,uidCliente)
     }
+    // Cargar todos los clientes
+    fun cargarClientes(callback: (List<Usuario>) -> Unit) {
+        repository.cargarClientes(callback)
+    }
 
-    //metodos para la lista de clientes para validar si existe
+    // Método para validar si el correo del usuario ya existe
+    fun validarUsuario(usuario: Usuario) {
+        cargarClientes { clientes ->
+            var usuarioDuplicado = false
+            for (cliente in clientes) {
+                if (cliente.correo == usuario.correo) {
+                    usuarioDuplicado = true
+                    break // Si encontramos un duplicado, salimos del ciclo
+                }
+            }
+            // Actualizamos el estado de la validez del usuario
+            _usuarioValido.value = !usuarioDuplicado
+        }
+    }
 }

@@ -10,4 +10,7 @@ class RepositoryClientes {
     fun crearClienteLogGoogle(cliente: Usuario,uidCliente:String) {
         CrudClientes().crearUsuario(cliente,uidCliente)
     }
+    fun cargarClientes(callback: (List<Usuario>) -> Unit){
+        return CrudClientes().cargarClientes(callback)
+    }
 }
