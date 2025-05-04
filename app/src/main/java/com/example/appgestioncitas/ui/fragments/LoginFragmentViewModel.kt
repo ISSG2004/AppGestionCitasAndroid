@@ -10,6 +10,8 @@ class LoginFragmentViewModel: ViewModel()  {
     val repository = RepositoryClientes()
     private val _listaCliente = MutableLiveData<Usuario>()
     val listaCliente : MutableLiveData<Usuario> = _listaCliente
+    private val _usuarioValido = MutableLiveData<Boolean>()
+    val usuarioValido : MutableLiveData<Boolean> = _usuarioValido
 
     fun crearCliente(cliente: Usuario,uidCliente:String){
         repository.crearCliente(cliente,uidCliente)
@@ -18,8 +20,24 @@ class LoginFragmentViewModel: ViewModel()  {
         repository.crearClienteLogGoogle(cliente,uidCliente)
     }
 
-    //metodos para la lista de clientes para validar si existe
+    // Cargar todos los clientes
+    fun cargarClientes(callback: (List<Usuario>) -> Unit) {
+        repository.cargarClientes(callback)
+    }
 
-
+    // Método para validar si el correo del usuario ya existe
+    fun validarUsuario(usuario: Usuario) {
+        cargarClientes { clientes ->
+            var usuarioExistente = false
+            for (cliente in clientes) {
+                if (cliente.correo == usuario.correo && cliente.password == usuario.password) {
+                    usuarioExistente = true
+                    break
+                }
+            }
+            // Actualizamos el estado de la validez del usuario
+            _usuarioValido.value = usuarioExistente
+        }
+    }
 
 }

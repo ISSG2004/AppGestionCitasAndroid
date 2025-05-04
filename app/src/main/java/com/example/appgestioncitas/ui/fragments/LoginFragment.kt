@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.lifecycle.Observer
 import com.example.appgestioncitas.R
 import com.example.appgestioncitas.databinding.FragmentLoginBinding
 import com.example.appgestioncitas.models.Usuario
@@ -16,6 +17,7 @@ import com.example.appgestioncitas.ui.MainActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 
@@ -144,18 +146,31 @@ class LoginFragment : Fragment() {
             binding.passwordInput.error = "Contraseña muy corta"
             return
         }
+        // Validar si el correo o el nombre de usuario ya existen
+        viewModel.validarUsuario(Usuario("", "", email, "", password)) // Pasamos el usuario a validar
 
-        auth.signInWithEmailAndPassword(email, password)
-            .addOnSuccessListener {
-                irMain()
+        // Observar la validación
+        viewModel.usuarioValido.observe(viewLifecycleOwner, Observer { esValido ->
+            if (esValido) {
+                // Si el correo y el nombre de usuario son válidos, proceder a iniciar seesión
+                auth.signInWithEmailAndPassword(email, password)
+                    .addOnSuccessListener {
+                        irMain()
+                    }
+                    .addOnFailureListener {
+                        Toast.makeText(
+                            requireContext(),
+                            "Error: ${it.message}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+            } else {
+                Snackbar.make(binding.root, "El correo o la contraseña que estas introduciendo no corresponde con ningun usuario, intentelo de nuevo", Snackbar.LENGTH_SHORT).show()
+
             }
-            .addOnFailureListener {
-                Toast.makeText(
-                    requireContext(),
-                    "Error: ${it.message}",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
+        })
+
+
     }
 
     private fun irMain() {
