@@ -13,6 +13,7 @@ import com.example.appgestioncitas.R
 import com.example.appgestioncitas.databinding.FragmentRegisterBinding
 import com.example.appgestioncitas.models.Usuario
 import com.example.appgestioncitas.ui.MainActivity
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 
 class RegisterFragment : Fragment() {
@@ -95,7 +96,8 @@ class RegisterFragment : Fragment() {
                 // Si el correo y el nombre de usuario son válidos, proceder a crear el usuario
                 crearUsuarioEnFirebase(email, password, userName, telefono)
             } else {
-                // Si el correo o el nombre de usuario ya están registrados, mostrar emergente con error
+                Snackbar.make(binding.root, "El correo que estas introduciendo ya existe, intente con otro correo", Snackbar.LENGTH_SHORT).show()
+                binding.emailInput.error = "Correo inválido"
 
             }
         })
