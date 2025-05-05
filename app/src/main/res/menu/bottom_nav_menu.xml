@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_home"
+        android:icon="@drawable/home_30dp_black"
+        android:title="Inicio"
+    />
+    <item
+        android:id="@+id/nav_events"
+        android:icon="@drawable/calendar_today_30dp_black"
+        android:title="Citas"
+        />
+    <item
+        android:id="@+id/nav_Account"
+        android:icon="@drawable/account_circle_30dp_black"
+        android:title="Cuenta"
+        />
+</menu>
