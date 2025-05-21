@@ -48,7 +48,7 @@ class CrudClientes {
             }
         })
 
-    }//añadir que devuelva un cliente
+    }//añadir que devuelva un/ cliente
     fun cargarClientes(callback: (List<Usuario>) -> Unit) {
         val baseDeDatos = FirebaseDatabase.getInstance()
         val referenciaUsuarios = baseDeDatos.getReference("usuarios")
