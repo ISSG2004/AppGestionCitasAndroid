@@ -13,9 +13,18 @@ class CitasNegocioViewModel: ViewModel() {
     private val _citas = MutableLiveData<List<Cita>>()
     val citas: MutableLiveData<List<Cita>> get() = _citas
 
-    fun cargarNegocios() {
+    fun cargarCitas() {
         repository.cargarCitas { lista ->
             _citas.value = lista
         }
     }
+    fun cargarCitasDelNegocio(negocioId: String) {
+        repository.cargarCitas { listaCompleta ->
+            val citasFiltradas = listaCompleta.filter {
+                it.negocio_id == negocioId && it.estado == "disponible"
+            }
+            _citas.value = citasFiltradas
+        }
+    }
+
 }

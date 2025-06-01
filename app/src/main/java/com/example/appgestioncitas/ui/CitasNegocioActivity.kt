@@ -31,9 +31,10 @@ class CitasNegocioActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        viewModel.cargarNegocios()
+
         setRecycler()
         cargarNegocio()
+        viewModel.cargarCitasDelNegocio(negocio.id)
     }
 
     private fun cargarNegocio() {
@@ -43,7 +44,7 @@ class CitasNegocioActivity : AppCompatActivity() {
     private fun setRecycler() {
         binding.recyclerCitasNegocio.adapter=adapter
         binding.recyclerCitasNegocio.layoutManager= LinearLayoutManager(this)
-        viewModel.cargarNegocios()
+        //viewModel.cargarCitas()
         viewModel.citas.observe(this) { lista ->
             adapter.actualizarDatos(lista)
         }
