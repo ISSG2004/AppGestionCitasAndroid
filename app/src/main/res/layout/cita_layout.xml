@@ -14,7 +14,7 @@
         android:layout_height="170dp">
 
         <TextView
-            android:id="@+id/tv_negocio"
+            android:id="@+id/tv_hora_cita"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
