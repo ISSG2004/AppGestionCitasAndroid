@@ -20,7 +20,7 @@ class MainAdapter(
         private var binding= NegocioLayoutBinding.bind(v)
         fun bind(negocio: Negocio,onItemClick: (Negocio) -> Unit) {
             binding.tvNegocio.text=negocio.nombre
-            binding.root.setOnClickListener {
+            binding.btnVerCitas.setOnClickListener {
                 onItemClick(negocio)
             }
         }
