@@ -15,7 +15,6 @@ class CitasNegocioViewModel: ViewModel() {
 
     fun cargarNegocios() {
         repository.cargarCitas { lista ->
-            //Log.d("MainViewModel", "Negocios recibidos: ${lista.size}")
             _citas.value = lista
         }
     }
