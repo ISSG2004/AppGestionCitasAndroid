@@ -6,6 +6,6 @@ data class Cita(
     val id:Any="",
     val fecha_cita:String="",
     var estado:Any="",//disponible, reservada
-    val usuario_id:Any="",
+    var usuario_id:Any="",
     val negocio_id:Any=""
 ):Serializable

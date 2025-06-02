@@ -12,6 +12,9 @@ import com.example.appgestioncitas.databinding.ActivityCitasNegocioBinding
 import com.example.appgestioncitas.models.Cita
 import com.example.appgestioncitas.models.Negocio
 import com.example.appgestioncitas.ui.adapters.CitasNegocioAdapter
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.auth
 
 class CitasNegocioActivity : AppCompatActivity() {
     private val viewModel : CitasNegocioViewModel by viewModels()
@@ -51,7 +54,7 @@ class CitasNegocioActivity : AppCompatActivity() {
     }
 
     private fun reservarCita(cita: Cita) {
-        cita.usuario_id = ""//rellenar con el id del usuario con un getInstance de firebase
+        cita.usuario_id = FirebaseAuth.getInstance().currentUser?.uid.toString()
         cita.estado = "ocupada"
         viewModel.editarEstadoCita(this,cita)
     }
