@@ -54,15 +54,16 @@ class CrudCitas {
 
         // Solo actualizamos el campo "estado"
         val actualizacion = mapOf<String, Any>(
-            "estado" to cita.estado
+            "estado" to cita.estado,
+            "id_usuario" to cita.usuario_id
         )
 
         citaRef.updateChildren(actualizacion)
             .addOnSuccessListener {
-                Toast.makeText(context, "Estado actualizado correctamente", Toast.LENGTH_SHORT).show()
+
             }
             .addOnFailureListener { error ->
-                println("Error al actualizar estado: ${error.message}")
+
             }
     }
 

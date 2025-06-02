@@ -1,12 +1,10 @@
 package com.example.appgestioncitas.ui
 
-import androidx.lifecycle.LiveData
+import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.appgestioncitas.data.repository.RepositoryCitas
-import com.example.appgestioncitas.data.repository.RepositoryNegocio
 import com.example.appgestioncitas.models.Cita
-import com.example.appgestioncitas.models.Negocio
 
 class CitasNegocioViewModel: ViewModel() {
     private val repository = RepositoryCitas()
@@ -25,6 +23,9 @@ class CitasNegocioViewModel: ViewModel() {
             }
             _citas.value = citasFiltradas
         }
+    }
+    fun editarEstadoCita(context:Context , cita: Cita) {
+        repository.editarCita(context,cita)
     }
 
 }
