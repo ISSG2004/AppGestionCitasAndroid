@@ -14,7 +14,7 @@
         android:layout_height="170dp">
 
         <TextView
-            android:id="@+id/tv_hora_cita"
+            android:id="@+id/tv_negocio_cita"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -36,53 +36,34 @@
             tools:layout_editor_absoluteY="59dp" />
 
         <TextView
-            android:id="@+id/tv_tipoNegocio"
+            android:id="@+id/tv_hora_fecha"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="28dp"
+            android:text="Hora"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <Button
+            android:id="@+id/btn_anular"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:text="Tipo negocio"
+            android:text="Anular cita"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/divider" />
 
         <TextView
-            android:id="@+id/tv_mes_fecha"
+            android:id="@+id/tv_fecha_cita"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:text="Mes"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tv_dia_fecha"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Dia"
+            android:text="Fecha"
             app:layout_constraintBottom_toTopOf="@+id/tv_hora_fecha"
-            app:layout_constraintEnd_toEndOf="@+id/tv_mes_fecha"
-            app:layout_constraintStart_toStartOf="@+id/tv_mes_fecha"
-            app:layout_constraintTop_toBottomOf="@+id/tv_mes_fecha" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/divider" />
 
-        <TextView
-            android:id="@+id/tv_hora_fecha"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="28dp"
-            android:text="Hora"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/tv_dia_fecha"
-            app:layout_constraintHorizontal_bias="0.4"
-            app:layout_constraintStart_toStartOf="@+id/tv_dia_fecha" />
-
-        <TextView
-            android:id="@+id/tv_duracion"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Duracion: "
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/tv_tipoNegocio"
-            app:layout_constraintTop_toBottomOf="@+id/tv_tipoNegocio" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

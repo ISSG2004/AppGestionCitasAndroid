@@ -34,5 +34,21 @@ class CrudNegocios {
 
         })
     }
+    fun cargarNegocio(negocioId: String, callback: (Negocio?) -> Unit) {
+        val referenciaNegocio = FirebaseDatabase.getInstance()
+            .getReference("negocios")
+            .child(negocioId)
+
+        referenciaNegocio.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val negocio = snapshot.getValue(Negocio::class.java)
+                callback(negocio) // Devuelve el negocio si existe, o null si no
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                callback(null) // En caso de error
+            }
+        })
+    }
 
 }

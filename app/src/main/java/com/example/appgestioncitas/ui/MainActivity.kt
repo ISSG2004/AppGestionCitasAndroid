@@ -33,6 +33,7 @@ class MainActivity : AppCompatActivity() {
         viewModel.cargarNegocios()
         setListeners()
         setRecycler()
+        configurarBottomMenu(R.id.nav_home)
     }
 
     private fun setRecycler() {
@@ -52,6 +53,36 @@ class MainActivity : AppCompatActivity() {
         intent.putExtra("negocio", negocio)
         startActivity(intent)
 
+    }
+    private fun configurarBottomMenu(currentId: Int) {
+        binding.bottomNavigation.selectedItemId = currentId
+
+        binding.bottomNavigation.setOnItemSelectedListener {
+            when (it.itemId) {
+                R.id.nav_home -> {
+                    if (currentId != R.id.nav_home) {
+                        startActivity(Intent(this, MainActivity::class.java))
+                        finish()
+                    }
+                    true
+                }
+                R.id.nav_events -> {
+                    if (currentId != R.id.nav_events) {
+                        startActivity(Intent(this, CitasActivity::class.java))
+                        finish()
+                    }
+                    true
+                }
+                R.id.nav_account -> {
+                    if (currentId != R.id.nav_account) {
+                        //startActivity(Intent(this, PerfilActivity::class.java))
+                        finish()
+                    }
+                    true
+                }
+                else -> false
+            }
+        }
     }
 
 }

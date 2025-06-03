@@ -11,7 +11,7 @@
         android:title="Citas"
         />
     <item
-        android:id="@+id/nav_Account"
+        android:id="@+id/nav_account"
         android:icon="@drawable/account_circle_30dp_black"
         android:title="Cuenta"
         />

@@ -13,6 +13,7 @@ import androidx.lifecycle.Observer
 import com.example.appgestioncitas.R
 import com.example.appgestioncitas.databinding.FragmentLoginBinding
 import com.example.appgestioncitas.models.Usuario
+import com.example.appgestioncitas.ui.CitasActivity
 import com.example.appgestioncitas.ui.MainActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions

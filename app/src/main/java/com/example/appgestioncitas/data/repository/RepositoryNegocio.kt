@@ -10,4 +10,8 @@ class RepositoryNegocio {
 
         }
     }
+    fun cargarNegocio(uidFirebase: String, callback: (Negocio?) -> Unit) {
+        CrudNegocios().cargarNegocio(uidFirebase, callback)
+
+    }
 }

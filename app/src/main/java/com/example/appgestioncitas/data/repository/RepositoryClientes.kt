@@ -13,4 +13,7 @@ class RepositoryClientes {
     fun cargarClientes(callback: (List<Usuario>) -> Unit){
         return CrudClientes().cargarClientes(callback)
     }
+    fun cargarCliente(uidFirebase: String, callback: (Usuario?) -> Unit) {
+        CrudClientes().cargarCliente(uidFirebase, callback)
+    }
 }
