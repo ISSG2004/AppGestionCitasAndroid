@@ -27,11 +27,11 @@ class CrudCitas {
         })
 
     }
-    fun cargarCitas(callback: (List<Cita>) -> Unit) {
+    fun cargarCitas(callback: (List<Cita>) -> Unit): ValueEventListener {
         val baseDeDatos = FirebaseDatabase.getInstance()
         val referenciaCitas = baseDeDatos.getReference("citas")
 
-        referenciaCitas.addListenerForSingleValueEvent(object : ValueEventListener {
+        val listener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val citas = mutableListOf<Cita>()
                 for (data in snapshot.children) {
@@ -43,8 +43,11 @@ class CrudCitas {
             override fun onCancelled(error: DatabaseError) {
                 callback(emptyList())
             }
-        })
+        }
+        referenciaCitas.addValueEventListener(listener)
+        return listener
     }
+
     fun editarCita(context:Context , cita: Cita) {
         val baseDeDatos = FirebaseDatabase.getInstance()
         val referenciaCitas = baseDeDatos.getReference("citas")
