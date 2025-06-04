@@ -54,7 +54,7 @@ class CitasNegocioActivity : AppCompatActivity() {
     }
 
     private fun reservarCita(cita: Cita) {
-        cita.usuario_id = FirebaseAuth.getInstance().currentUser?.uid.toString()
+        cita.id_usuario = FirebaseAuth.getInstance().currentUser?.uid.toString()
         cita.estado = "ocupada"
         viewModel.editarEstadoCita(this,cita)
     }

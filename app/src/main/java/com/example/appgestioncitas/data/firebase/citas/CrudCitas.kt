@@ -58,7 +58,7 @@ class CrudCitas {
         // Solo actualizamos el campo "estado"
         val actualizacion = mapOf<String, Any>(
             "estado" to cita.estado,
-            "id_usuario" to cita.usuario_id
+            "id_usuario" to cita.id_usuario
         )
 
         citaRef.updateChildren(actualizacion)

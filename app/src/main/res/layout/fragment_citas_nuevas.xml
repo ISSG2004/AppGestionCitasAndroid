@@ -8,7 +8,7 @@
     tools:context=".ui.fragments.CitasNuevasFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_cita_pendiente"
+        android:id="@+id/rvCitaPendiente"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:padding="15dp"
