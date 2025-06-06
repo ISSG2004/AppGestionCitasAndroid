@@ -2,23 +2,26 @@ package com.example.appgestioncitas.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.appgestioncitas.R
 import com.example.appgestioncitas.databinding.ActivityMainBinding
 import com.example.appgestioncitas.models.Negocio
 import com.example.appgestioncitas.ui.adapters.MainAdapter
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import java.time.LocalDateTime
 
 class MainActivity : AppCompatActivity() {
     private val viewModel: MainViewModel by viewModels()
     private lateinit var binding: ActivityMainBinding
-    private val adapter = MainAdapter(mutableListOf()) { negocio ->
-        irCitas(negocio)
-    }
+    private val adapter = MainAdapter(mutableListOf()) { negocio -> irCitas(negocio) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,11 +33,10 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        viewModel.cargarNegocios()
-        setListeners()
+
         setRecycler()
         configurarBottomMenu(R.id.nav_home)
-       // startCitaPolling()
+        startCitaPolling()
     }
 
     private fun setRecycler() {
@@ -46,15 +48,13 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun setListeners() {
 
-    }
     private fun irCitas(negocio: Negocio) {
-       val intent = Intent(this, CitasNegocioActivity::class.java)
+        val intent = Intent(this, CitasNegocioActivity::class.java)
         intent.putExtra("negocio", negocio)
         startActivity(intent)
-
     }
+
     private fun configurarBottomMenu(currentId: Int) {
         binding.bottomNavigation.selectedItemId = currentId
 
@@ -76,8 +76,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.nav_account -> {
                     if (currentId != R.id.nav_account) {
-                        //startActivity(Intent(this, PerfilActivity::class.java))
-                        finish()
+                        Toast.makeText(this, "Perfil aún no disponible", Toast.LENGTH_SHORT).show()
                     }
                     true
                 }
@@ -87,4 +86,30 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+    private fun startCitaPolling() {
+        lifecycleScope.launch {
+            while (!isFinishing) {
+                viewModel.cargarCitas()
+                val listaCitas = viewModel.citas.value ?: emptyList()
+                val ahora = LocalDateTime.now()
+
+                for (cita in listaCitas) {
+                    val fechaHoraCita = cita.fecha_cita?.let {
+                        try {
+                            LocalDateTime.parse(it)
+                        } catch (e: Exception) {
+                            null
+                        }
+                    }
+
+                    if (fechaHoraCita != null && fechaHoraCita.isBefore(ahora) && cita.estado != "pasada") {
+                        cita.estado = "pasada"
+                        viewModel.editarEstadoCita(this@MainActivity, cita)
+                    }
+                }
+
+                delay(30_000) // cada 30 segundos
+            }
+        }
+    }
 }

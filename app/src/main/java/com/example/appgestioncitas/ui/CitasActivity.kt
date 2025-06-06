@@ -2,6 +2,7 @@ package com.example.appgestioncitas.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -82,12 +83,11 @@ class CitasActivity : AppCompatActivity() {
                     true
                 }
                 R.id.nav_events -> {
-                    true // Ya estás aquí
+                    true
                 }
                 R.id.nav_account -> {
                     if (currentId != R.id.nav_account) {
-                        // startActivity(Intent(this, PerfilActivity::class.java))
-                        finish()
+                        Toast.makeText(this, "Perfil aún no disponible", Toast.LENGTH_SHORT).show()
                     }
                     true
                 }
