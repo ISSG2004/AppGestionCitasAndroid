@@ -34,6 +34,7 @@ class MainActivity : AppCompatActivity() {
         setListeners()
         setRecycler()
         configurarBottomMenu(R.id.nav_home)
+       // startCitaPolling()
     }
 
     private fun setRecycler() {
@@ -84,5 +85,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
 
 }

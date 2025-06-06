@@ -6,12 +6,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.appgestioncitas.R
 import com.example.appgestioncitas.databinding.FragmentCitasNuevasBinding
 import com.example.appgestioncitas.databinding.FragmentCitasTerminadasBinding
 import com.example.appgestioncitas.ui.adapters.CitasPendientesAdapter
 import com.example.appgestioncitas.ui.adapters.CitasTerminadasAdapter
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import java.time.LocalDateTime
 
 
 class CitasTerminadasFragment : Fragment() {
@@ -37,19 +41,51 @@ class CitasTerminadasFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         adapter = CitasTerminadasAdapter(mutableListOf()) { cita ->
-            //cancelarCita(cita)
+            // Aquí podrías permitir reprogramar, ver detalles, etc.
         }
 
         binding.rvCitasPasadas.layoutManager = LinearLayoutManager(requireContext())
         binding.rvCitasPasadas.adapter = adapter
 
-        viewModel.citasPendientes.observe(viewLifecycleOwner) { lista ->
-            //Log.d("CitasFragment", "Lista recibida: ${lista.size}")
+        viewModel.citasPasadas.observe(viewLifecycleOwner) { lista ->
             adapter.actualizarDatos(lista)
         }
 
-
-        viewModel.cargarCitasPendientes() // Método en el ViewModel
+        startCitaPolling()
     }
 
+    private fun startCitaPolling() {
+        lifecycleScope.launch {
+            while (isAdded) {
+                viewModel.cargarCitas()
+
+                val listaCitas = viewModel.citas.value ?: emptyList()
+                val ahora = LocalDateTime.now()
+
+                for (cita in listaCitas) {
+                    val fechaHoraCita = cita.fecha_cita?.let {
+                        try {
+                            LocalDateTime.parse(it)
+                        } catch (e: Exception) {
+                            null
+                        }
+                    }
+
+                    if (fechaHoraCita != null && fechaHoraCita.isBefore(ahora) && cita.estado != "pasada") {
+                        cita.estado = "pasada"
+                        viewModel.editarEstadoCita(requireContext(), cita)
+                    }
+                }
+
+                viewModel.cargarCitasTerminadas()
+
+                delay(30_000) // cada 30 segs
+            }
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }
