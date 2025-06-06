@@ -8,14 +8,18 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.appgestioncitas.R
 import com.example.appgestioncitas.databinding.ActivityMainBinding
 import com.example.appgestioncitas.models.Negocio
 import com.example.appgestioncitas.ui.adapters.MainAdapter
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.time.LocalDateTime
 
 class MainActivity : AppCompatActivity() {
@@ -85,31 +89,34 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
     private fun startCitaPolling() {
         lifecycleScope.launch {
-            while (!isFinishing) {
-                viewModel.cargarCitas()
-                val listaCitas = viewModel.citas.value ?: emptyList()
-                val ahora = LocalDateTime.now()
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                while (true) {
+                    withContext(Dispatchers.IO) {
+                        viewModel.cargarCitas()
 
-                for (cita in listaCitas) {
-                    val fechaHoraCita = cita.fecha_cita?.let {
-                        try {
-                            LocalDateTime.parse(it)
-                        } catch (e: Exception) {
-                            null
+                        val listaCitas = viewModel.citas.value ?: emptyList()
+                        val ahora = LocalDateTime.now()
+
+                        listaCitas.forEach { cita ->
+                            val fechaHoraCita = runCatching {
+                                cita.fecha_cita?.let { LocalDateTime.parse(it) }
+                            }.getOrNull()
+
+                            if (fechaHoraCita != null &&
+                                fechaHoraCita.isBefore(ahora) &&
+                                cita.estado != "pasada"
+                            ) {
+                                cita.estado = "pasada"
+                                viewModel.editarEstadoCita(this@MainActivity, cita)
+                            }
                         }
                     }
-
-                    if (fechaHoraCita != null && fechaHoraCita.isBefore(ahora) && cita.estado != "pasada") {
-                        cita.estado = "pasada"
-                        viewModel.editarEstadoCita(this@MainActivity, cita)
-                    }
+                    delay(10_000)
                 }
-
-                delay(30_000) // cada 30 segundos
             }
         }
     }
+
 }

@@ -8,7 +8,7 @@
     tools:context=".ui.fragments.CitasTerminadasFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvCitaPendiente"
+        android:id="@+id/rvCitasPasadas"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="20dp"

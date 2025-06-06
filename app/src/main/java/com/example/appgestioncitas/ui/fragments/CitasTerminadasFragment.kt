@@ -79,7 +79,7 @@ class CitasTerminadasFragment : Fragment() {
 
                 viewModel.cargarCitasTerminadas()
 
-                delay(30_000) // cada 30 segs
+                delay(10_000) // cada 30 segs
             }
         }
     }
