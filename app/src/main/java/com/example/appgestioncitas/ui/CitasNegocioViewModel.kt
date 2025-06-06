@@ -12,8 +12,8 @@ class CitasNegocioViewModel: ViewModel() {
     val citas: MutableLiveData<List<Cita>> get() = _citas
 
     fun cargarCitas() {
-        repository.cargarCitas { lista ->
-            _citas.value = lista
+        repository.cargarCitas { citas ->
+            _citas.postValue(citas)
         }
     }
     fun cargarCitasDelNegocio(negocioId: String) {

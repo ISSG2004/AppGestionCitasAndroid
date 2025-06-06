@@ -1,20 +1,28 @@
 package com.example.appgestioncitas.ui
 
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.appgestioncitas.R
 import com.example.appgestioncitas.databinding.ActivityCitasNegocioBinding
 import com.example.appgestioncitas.models.Cita
 import com.example.appgestioncitas.models.Negocio
 import com.example.appgestioncitas.ui.adapters.CitasNegocioAdapter
-import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.auth
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.time.LocalDateTime
 
 class CitasNegocioActivity : AppCompatActivity() {
     private val viewModel : CitasNegocioViewModel by viewModels()
@@ -38,6 +46,8 @@ class CitasNegocioActivity : AppCompatActivity() {
         setRecycler()
         cargarNegocio()
         viewModel.cargarCitasDelNegocio(negocio.id)
+        configurarBottomMenu(null)
+        startCitaPolling()
     }
 
     private fun cargarNegocio() {
@@ -57,5 +67,61 @@ class CitasNegocioActivity : AppCompatActivity() {
         cita.id_usuario = FirebaseAuth.getInstance().currentUser?.uid.toString()
         cita.estado = "ocupada"
         viewModel.editarEstadoCita(this,cita)
+    }
+    private fun startCitaPolling() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                while (true) {
+                    withContext(Dispatchers.IO) {
+                        viewModel.cargarCitasDelNegocio(negocio.id)
+
+                        val listaCitas = viewModel.citas.value ?: emptyList()
+                        val ahora = LocalDateTime.now()
+
+                        listaCitas.forEach { cita ->
+                            val fechaHoraCita = runCatching {
+                                cita.fecha_cita?.let { LocalDateTime.parse(it) }
+                            }.getOrNull()
+
+                            if (fechaHoraCita != null &&
+                                fechaHoraCita.isBefore(ahora) &&
+                                cita.estado != "pasada"
+                            ) {
+                                cita.estado = "pasada"
+                                viewModel.editarEstadoCita(this@CitasNegocioActivity, cita)
+                            }
+                        }
+                    }
+                    delay(10_000)
+                }
+            }
+        }
+    }
+    private fun configurarBottomMenu(currentId: Int?) {
+        if (currentId != null) {
+            binding.bottomNavigation.selectedItemId = currentId
+        }
+
+        binding.bottomNavigation.setOnItemSelectedListener {
+            when (it.itemId) {
+                R.id.nav_home -> {
+                    if (currentId != R.id.nav_home) {
+                        startActivity(Intent(this, MainActivity::class.java))
+                        finish()
+                    }
+                    true
+                }
+                R.id.nav_events -> {
+                    true
+                }
+                R.id.nav_account -> {
+                    if (currentId != R.id.nav_account) {
+                        Toast.makeText(this, "Perfil aún no disponible", Toast.LENGTH_SHORT).show()
+                    }
+                    true
+                }
+                else -> false
+            }
+        }
     }
 }
