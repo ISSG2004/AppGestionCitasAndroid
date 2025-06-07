@@ -11,7 +11,7 @@
     <!-- Botón izquierdo -->
     <Button
         android:id="@+id/btn_pendientes"
-        android:layout_width="0dp"
+        android:layout_width="175dp"
         android:layout_height="40dp"
         android:backgroundTint="#00BCD4"
         android:text="Citas pendientes"
@@ -23,9 +23,12 @@
         app:layout_constraintWidth_percent="0.5" />
 
     <!-- Botón derecho -->
+
+
+    <!-- Contenedor de fragments -->
     <Button
         android:id="@+id/btn_pasadas"
-        android:layout_width="0dp"
+        android:layout_width="175dp"
         android:layout_height="40dp"
         android:backgroundTint="#00BCD4"
         android:text="Citas pasadas"
@@ -33,10 +36,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/btn_pendientes"
         app:layout_constraintTop_toTopOf="@id/btn_pendientes"
+        app:layout_constraintVertical_bias="1.0"
         app:layout_constraintWidth_percent="0.5" />
 
-
-    <!-- Contenedor de fragments -->
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fcb_citas_usuario"
         android:layout_width="0dp"
