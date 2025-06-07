@@ -80,7 +80,8 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.nav_account -> {
                     if (currentId != R.id.nav_account) {
-                        Toast.makeText(this, "Perfil aún no disponible", Toast.LENGTH_SHORT).show()
+                        startActivity(Intent(this, PerfilActivity::class.java))
+                        finish()
                     }
                     true
                 }

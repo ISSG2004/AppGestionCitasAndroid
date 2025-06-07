@@ -2,7 +2,6 @@ package com.example.appgestioncitas.ui
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -46,7 +45,7 @@ class CitasNegocioActivity : AppCompatActivity() {
         setRecycler()
         cargarNegocio()
         viewModel.cargarCitasDelNegocio(negocio.id)
-        configurarBottomMenu(null)
+        configurarBottomMenu(R.id.nav_home)
         startCitaPolling()
     }
 
@@ -97,10 +96,8 @@ class CitasNegocioActivity : AppCompatActivity() {
             }
         }
     }
-    private fun configurarBottomMenu(currentId: Int?) {
-        if (currentId != null) {
-            binding.bottomNavigation.selectedItemId = currentId
-        }
+    private fun configurarBottomMenu(currentId: Int) {
+        binding.bottomNavigation.selectedItemId = currentId
 
         binding.bottomNavigation.setOnItemSelectedListener {
             when (it.itemId) {
@@ -112,11 +109,16 @@ class CitasNegocioActivity : AppCompatActivity() {
                     true
                 }
                 R.id.nav_events -> {
+                    if (currentId != R.id.nav_events) {
+                        startActivity(Intent(this, CitasActivity::class.java))
+                        finish()
+                    }
                     true
                 }
                 R.id.nav_account -> {
                     if (currentId != R.id.nav_account) {
-                        Toast.makeText(this, "Perfil aún no disponible", Toast.LENGTH_SHORT).show()
+                        startActivity(Intent(this, PerfilActivity::class.java))
+                        finish()
                     }
                     true
                 }

@@ -5,12 +5,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.appgestioncitas.R
 import com.example.appgestioncitas.databinding.FragmentCitasNuevasBinding
 import com.example.appgestioncitas.databinding.FragmentCitasTerminadasBinding
+import com.example.appgestioncitas.models.Cita
 import com.example.appgestioncitas.ui.adapters.CitasPendientesAdapter
 import com.example.appgestioncitas.ui.adapters.CitasTerminadasAdapter
 import kotlinx.coroutines.delay
@@ -41,12 +43,11 @@ class CitasTerminadasFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         adapter = CitasTerminadasAdapter(mutableListOf()) { cita ->
-            // Aquí podrías permitir reprogramar, ver detalles, etc.
+            valorarCita(cita)
         }
 
         binding.rvCitasPasadas.layoutManager = LinearLayoutManager(requireContext())
         binding.rvCitasPasadas.adapter = adapter
-
         viewModel.citasPasadas.observe(viewLifecycleOwner) { lista ->
             adapter.actualizarDatos(lista)
         }
@@ -83,7 +84,9 @@ class CitasTerminadasFragment : Fragment() {
             }
         }
     }
-
+    private fun valorarCita(cita: Cita) {
+        Toast.makeText(requireContext(), "Función no disponible", Toast.LENGTH_SHORT).show()
+    }
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

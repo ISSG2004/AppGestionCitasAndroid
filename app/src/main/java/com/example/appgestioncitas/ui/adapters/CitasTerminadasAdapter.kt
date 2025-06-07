@@ -33,6 +33,7 @@ class CitasTerminadasAdapter(
         fun bind(cita: Cita, onItemClick: (Cita) -> Unit) {
             // Procesar fecha y hora
             val fechaHora = cita.fecha_cita
+            binding.btnAnular.text="Valorar cita"
             if (fechaHora != null && fechaHora.contains("T")) {
                 val (fecha, horaCompleta) = fechaHora.split("T")
                 val hora = horaCompleta.take(5) // HH:mm

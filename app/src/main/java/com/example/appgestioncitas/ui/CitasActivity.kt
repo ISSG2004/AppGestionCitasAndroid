@@ -39,6 +39,7 @@ class CitasActivity : AppCompatActivity() {
         configurarBottomMenu(R.id.nav_events)
     }
 
+
     private fun setListeners() {
         binding.btnPendientes.setOnClickListener {
             setFragmentPendientes()
@@ -51,23 +52,19 @@ class CitasActivity : AppCompatActivity() {
     private fun setFragmentPendientes() {
         supportFragmentManager.commit {
             setReorderingAllowed(true)
-            setCustomAnimations(
-                android.R.anim.fade_in,
-                android.R.anim.fade_out
-            )
-            replace(R.id.fcb_citas_usuario, fragmentCitasPendientes)
+            setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
+            replace(R.id.fcb_citas_usuario, fragmentCitasPendientes, "pendientes")
         }
+        actualizarEstadoBotones("pendientes")
     }
 
     private fun setFragmentPasadas() {
         supportFragmentManager.commit {
             setReorderingAllowed(true)
-            setCustomAnimations(
-                android.R.anim.fade_in,
-                android.R.anim.fade_out
-            )
-            replace(R.id.fcb_citas_usuario, fragmentCitasPasadas)
+            setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
+            replace(R.id.fcb_citas_usuario, fragmentCitasPasadas, "pasadas")
         }
+        actualizarEstadoBotones("pasadas")
     }
 
     private fun configurarBottomMenu(currentId: Int) {
@@ -83,15 +80,32 @@ class CitasActivity : AppCompatActivity() {
                     true
                 }
                 R.id.nav_events -> {
+                    if (currentId != R.id.nav_events) {
+                        startActivity(Intent(this, CitasActivity::class.java))
+                        finish()
+                    }
                     true
                 }
                 R.id.nav_account -> {
                     if (currentId != R.id.nav_account) {
-                        Toast.makeText(this, "Perfil aún no disponible", Toast.LENGTH_SHORT).show()
+                        startActivity(Intent(this, PerfilActivity::class.java))
+                        finish()
                     }
                     true
                 }
                 else -> false
+            }
+        }
+    }
+    private fun actualizarEstadoBotones(tag: String) {
+        when (tag) {
+            "pendientes" -> {
+                binding.btnPendientes.isEnabled = false
+                binding.btnPasadas.isEnabled = true
+            }
+            "pasadas" -> {
+                binding.btnPendientes.isEnabled = true
+                binding.btnPasadas.isEnabled = false
             }
         }
     }
