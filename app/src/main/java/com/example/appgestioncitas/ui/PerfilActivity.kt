@@ -43,7 +43,7 @@ class PerfilActivity : AppCompatActivity() {
             if (usuario != null) {
                 this.usuario = usuario
 
-                // Aquí ya el usuario está cargado, por eso todo va dentro del callback
+
                 Picasso.get()
                     .load("https://dummyimage.com/200x200/000/fff&text=${usuario.userName?.substring(0, 2)?.uppercase()}")
                     .into(binding.imgPerfil)

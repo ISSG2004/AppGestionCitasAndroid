@@ -64,7 +64,9 @@
                     android:layout_height="wrap_content"
                     android:enabled="false"
                     android:hint="Nombre de usuario"
-                    android:text="usuario123" />
+                    android:text="usuario123"
+                    android:textColor="#090909"
+                    android:textStyle="bold" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Teléfono -->
@@ -80,7 +82,9 @@
                     android:layout_height="wrap_content"
                     android:enabled="false"
                     android:hint="Teléfono"
-                    android:text="+1 234 567 8900" />
+                    android:text="+1 234 567 8900"
+                    android:textColor="#000000"
+                    android:textStyle="bold" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Correo -->
@@ -96,7 +100,9 @@
                     android:layout_height="wrap_content"
                     android:enabled="false"
                     android:hint="Correo electrónico"
-                    android:text="usuario@ejemplo.com" />
+                    android:text="usuario@ejemplo.com"
+                    android:textColor="#101010"
+                    android:textStyle="bold" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Botón Editar -->
