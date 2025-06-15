@@ -68,11 +68,6 @@ AppGestionCitasAndroid/
 - Registrar SHA-1 para Google Sign-In.
 - Añadir `google-services.json` en carpeta `app/`.
 
-## 🧪 Testing
-
-- JUnit para pruebas unitarias.
-- Espresso para UI tests.
-
 ## 📄 Licencia
 
 Proyecto bajo MIT License.
